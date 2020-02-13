@@ -1,5 +1,6 @@
 package com.myappcompany.russell.eggtimer;
 
+import android.media.MediaPlayer;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
     SeekBar timerSeekBar;
 
     public void buttonClicked(View view){
-        new CountDownTimer(timerSeekBar.getProgress()*1000, 1000){
+        new CountDownTimer(timerSeekBar.getProgress()*1000 + 100, 1000){
 
             @Override
             public void onTick(long l) {
@@ -23,7 +24,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                Log.i("finished", "timer all done");
+                MediaPlayer mplayer = MediaPlayer.create(getApplicationContext(), R.raw.airhorn);
+                mplayer.start();
             }
         }.start();
     }
@@ -34,8 +36,8 @@ public class MainActivity extends AppCompatActivity {
 
         String secondString = Integer.toString(seconds);
 
-        if(secondString.equals("0")){
-            secondString = "00";
+        if( seconds <= 0){
+            secondString = "0" + secondString;
         }
 
         timerTextView.setText(Integer.toString(minutes) + ":" + secondString);
